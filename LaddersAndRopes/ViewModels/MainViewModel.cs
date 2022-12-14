@@ -89,7 +89,7 @@ namespace LaddersAndRopes.ViewModels
         var p = item.Players.FirstOrDefault(_ => _.Id == playerTurn);
         if (p != null)
         {
-          FateNumber = random.Next(1, 6);
+          FateNumber = random.Next(1, 12);
           var s = item.StepNumber + FateNumber;   
           if (s >= 99)
           {
