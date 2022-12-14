@@ -18,10 +18,10 @@ namespace LaddersAndRopes.ViewModels
     public ObservableCollection<Stage> Stages
     {
       get { return stages; }
-      set { stages = value;  OnPropertyChanged(nameof(Stages)); }
+      set { stages = value; OnPropertyChanged(nameof(Stages)); }
     }
 
- 
+
     public RelayCommand AddPlayer { get; set; }
     public RelayCommand Next { get; set; }
     public RelayCommand StartGame { get; set; }
@@ -30,7 +30,7 @@ namespace LaddersAndRopes.ViewModels
     public string NewNamePlayer
     {
       get { return newNamePlayer; }
-      set { newNamePlayer = value; OnPropertyChanged(nameof(NewNamePlayer));  }
+      set { newNamePlayer = value; OnPropertyChanged(nameof(NewNamePlayer)); }
     }
     private int fateNumber;
 
@@ -77,6 +77,9 @@ namespace LaddersAndRopes.ViewModels
       Stages[95].GoTo = new Snake { ToStepNumber = 48 };
       Stages[46].GoTo = new Snake { ToStepNumber = 8 };
 
+      Stages[73].GoTo = new Gold();
+      Stages[27].GoTo = new Gold();
+
       numPlayer = 1;
       playerTurn = 1;
     }
@@ -90,7 +93,7 @@ namespace LaddersAndRopes.ViewModels
         if (p != null)
         {
           FateNumber = random.Next(1, 12);
-          var s = item.StepNumber + FateNumber;   
+          var s = item.StepNumber + FateNumber;
           if (s >= 99)
           {
             // cureent player winer
@@ -98,13 +101,27 @@ namespace LaddersAndRopes.ViewModels
             return;
           }
           Stages[s].Players.Add(p);
-          Stages[item.StepNumber-1].Players.Remove(p);
-          if (Stages[s].GoTo!= null)
+          Stages[item.StepNumber - 1].Players.Remove(p);
+          if (Stages[s].GoTo != null)
           {
+            if (numPlayer > 2)
+              if (Stages[s].GoTo is Gold)
+              {
+                var stage = Stages.LastOrDefault(_ => _.Players.Count >= 1 && _.Players.All(c => c != p));
+                if (stage != null && stage.StepNumber > item.StepNumber)
+                {
+                  var theleadingActor = stage.Players[0];
+                  item.Players.Add(theleadingActor);
+                  stage.Players.Add(p);
+                  stage.Players.Remove(theleadingActor);
+                }
+                break;
+              }
+
             Stages[Stages[s].GoTo.ToStepNumber].Players.Add(p);
             Stages[s].Players.Remove(p);
           }
-      
+
           break;
         }
       }
@@ -120,14 +137,17 @@ namespace LaddersAndRopes.ViewModels
 
     private void AddPlayerClick(object obj)
     {
-      var player = new Player()
+      if (!string.IsNullOrEmpty(NewNamePlayer))
       {
-        Name = NewNamePlayer,
-        Id = numPlayer
-      };
-      Stages[0].Players.Add(player);
-      numPlayer++;
-      NewNamePlayer = "";
+        var player = new Player()
+        {
+          Name = NewNamePlayer,
+          Id = numPlayer
+        };
+        Stages[0].Players.Add(player);
+        numPlayer++;
+        NewNamePlayer = "";
+      }
     }
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged(string nameProperty)
