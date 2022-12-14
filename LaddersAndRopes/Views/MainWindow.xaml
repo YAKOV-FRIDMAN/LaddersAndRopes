@@ -1,0 +1,93 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LaddersAndRopes.Views"
+        xmlns:viewModel="clr-namespace:LaddersAndRopes.ViewModels"
+        xmlns:covert="clr-namespace:LaddersAndRopes.Converters"
+        xmlns:Primitives="clr-namespace:System.Windows.Controls.Ribbon.Primitives;assembly=System.Windows.Controls.Ribbon" x:Class="LaddersAndRopes.Views.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1200">
+  <Window.Resources>
+    <ResourceDictionary>
+
+      <covert:ColorToBrushConverter x:Key="ConvertColor"/>
+      <DataTemplate x:Key="stageTemplate">
+        <!--<StackPanel  >
+          <UniformGrid Columns="10" Rows="5">
+          </UniformGrid>
+        </StackPanel>-->
+
+            <Border BorderThickness="4" CornerRadius="2" Background="Azure" Width="130">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition/>
+                  <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition/>
+                  <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding StepNumber}"/>
+                <StackPanel  Grid.Column="2">
+
+                  <Image Source="{Binding GoTo.Image}" Height="20"/>
+                  <TextBlock Text="{Binding GoTo}"/>
+                </StackPanel>
+                <ItemsControl Grid.Row="2" ItemsSource="{Binding Players}" >
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition/>
+                          <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Name}"/>
+                        <Ellipse Grid.Column="1"  Height="15" Width="15" Fill="{Binding Color, Converter={StaticResource ConvertColor}}"/>
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+              </Grid>
+            </Border>
+      </DataTemplate>
+    </ResourceDictionary>
+  </Window.Resources>
+  <Window.DataContext>
+    <viewModel:MainViewModel/>
+  </Window.DataContext>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="150"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="100"/>
+    </Grid.RowDefinitions>
+    <StackPanel>
+      <TextBlock Text="Add new Player" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
+      <TextBlock Text="name:" FontSize="14" />
+      <TextBox Text="{Binding NewNamePlayer}" FontSize="14" />
+      <Button Content="Add" Command="{Binding AddPlayer}" Background="Transparent"/>
+      <TextBlock Text="Fate Number" Margin="0,50,0,0"/>
+      <TextBlock Text="{Binding FateNumber}" FontWeight="Bold" FontSize="16" TextAlignment="Center"/>
+    </StackPanel>
+    <Button Grid.Column="0" Grid.Row="1" Command="{Binding StartGame}" Content="Start again" FontSize="14" FontWeight="Bold" Width="100" Height="50" Background="Transparent"/>
+    <Button Grid.Column="1" Grid.Row="1" Command="{Binding Next}" Content="Next Step" FontSize="18" FontWeight="Bold" Width="150" Height="80" Background="Transparent"/>
+   
+    <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <WrapPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+        <ItemsControl  ItemsSource="{Binding Stages}" ItemTemplate="{StaticResource stageTemplate}" >
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <UniformGrid Columns="10" Rows="10"></UniformGrid>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </WrapPanel>
+    </ScrollViewer>
+  </Grid>
+</Window>
