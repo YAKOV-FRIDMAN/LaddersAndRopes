@@ -10,7 +10,6 @@ namespace LaddersAndRopes.Models
   public abstract class GoTo
   {
     public int ToStepNumber { get; set; }
-    public ImageSource Image { get; protected set; }
-   
+    public string Image { get; protected set; }
   }
 }

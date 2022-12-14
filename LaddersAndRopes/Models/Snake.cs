@@ -13,8 +13,7 @@ namespace LaddersAndRopes.Models
   {
     public Snake()
     {
-      var s = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-      Image = new BitmapImage(new Uri(s.Split("LaddersAndRopes")[0] + @"LaddersAndRopes\LaddersAndRopes\Assets\Sanke.png"));
+      Image = "/Assets/Sanke.png";
     }
 
     public override string ToString()

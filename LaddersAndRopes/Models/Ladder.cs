@@ -11,8 +11,7 @@ namespace LaddersAndRopes.Models
   {
     public Ladder()
     {
-      var s = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-      Image = new BitmapImage(new Uri(s.Split("LaddersAndRopes")[0] + @"LaddersAndRopes\LaddersAndRopes\Assets\Ladder.jpg"));
+      Image = "/Assets/Ladder.jpg";
     }
     public override string ToString()
     {

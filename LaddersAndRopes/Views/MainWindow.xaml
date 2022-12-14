@@ -19,39 +19,39 @@
           </UniformGrid>
         </StackPanel>-->
 
-            <Border BorderThickness="4" CornerRadius="2" Background="Azure" Width="130">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition/>
-                  <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                  <RowDefinition/>
-                  <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="{Binding StepNumber}"/>
-                <StackPanel  Grid.Column="2">
+        <Border BorderThickness="4" CornerRadius="2" Background="Azure" Width="130">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition/>
+              <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding StepNumber}"/>
+            <StackPanel  Grid.Column="2">
 
-                  <Image Source="{Binding GoTo.Image}" Height="20"/>
-                  <TextBlock Text="{Binding GoTo}"/>
-                </StackPanel>
-                <ItemsControl Grid.Row="2" ItemsSource="{Binding Players}" >
-                  <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                      <Grid>
-                        <Grid.ColumnDefinitions>
-                          <ColumnDefinition/>
-                          <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Name}"/>
-                        <Ellipse Grid.Column="1"  Height="15" Width="15" Fill="{Binding Color, Converter={StaticResource ConvertColor}}"/>
-                      </Grid>
-                    </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-                </ItemsControl>
+              <Image Source="{Binding GoTo.Image}" Height="20"/>
+              <TextBlock Text="{Binding GoTo}"/>
+            </StackPanel>
+            <ItemsControl Grid.Row="2" ItemsSource="{Binding Players}" >
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition/>
+                      <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding Name}"/>
+                    <Ellipse Grid.Column="1"  Height="15" Width="15" Fill="{Binding Color, Converter={StaticResource ConvertColor}}"/>
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-              </Grid>
-            </Border>
+          </Grid>
+        </Border>
       </DataTemplate>
     </ResourceDictionary>
   </Window.Resources>
@@ -74,10 +74,36 @@
       <Button Content="Add" Command="{Binding AddPlayer}" Background="Transparent"/>
       <TextBlock Text="Fate Number" Margin="0,50,0,0"/>
       <TextBlock Text="{Binding FateNumber}" FontWeight="Bold" FontSize="16" TextAlignment="Center"/>
+
+      <Border Margin="3,20,3,3"    BorderThickness="1"  Padding="3"     CornerRadius="1"      BorderBrush="Black"   >
+        <StackPanel>
+        <TextBlock Text="Add Ladder and Snake" FontWeight="Bold"/>
+
+          <ComboBox Margin="0,5,0,0" ItemsSource="{Binding GoTosCategories}" SelectedItem="{Binding NewGoTo}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                  <Image Source="{Binding Image}" Height="30" />
+                  <TextBlock Text="{Binding}"/>
+                </StackPanel>
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+            
+            
+          </ComboBox>
+          <TextBlock Text="Enter step number" Margin="0,5,0,0"/>
+          <TextBox Margin="0,2,0,0" Text="{Binding NewStepForGoTo}"/>
+          <TextBlock Text="Enter Go to step.." Margin="0,5,0,0"/>
+          <TextBox Margin="0,2,0,0" Text="{Binding NewGoToStepForGoTo}"/>
+
+          <Button Content="Add" Margin="0,5,0,0" Command="{Binding AddGoTo}"/>
+        </StackPanel>
+      </Border>
+      <Button Margin="0,10,0,0" Content="Set Auto Ladder And Snake" Command="{Binding SetAutoLadderAndSnake}"  Background="Transparent"/>
     </StackPanel>
     <Button Grid.Column="0" Grid.Row="1" Command="{Binding StartGame}" Content="Start again" FontSize="14" FontWeight="Bold" Width="100" Height="50" Background="Transparent"/>
     <Button Grid.Column="1" Grid.Row="1" Command="{Binding Next}" Content="Next Step" FontSize="18" FontWeight="Bold" Width="150" Height="80" Background="Transparent"/>
-   
+
     <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
       <WrapPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
         <ItemsControl  ItemsSource="{Binding Stages}" ItemTemplate="{StaticResource stageTemplate}" >

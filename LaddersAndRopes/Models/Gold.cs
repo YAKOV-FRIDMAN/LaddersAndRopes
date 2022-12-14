@@ -11,8 +11,7 @@ namespace LaddersAndRopes.Models
   {
     public Gold()
     {
-      var s = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-      Image = new BitmapImage(new Uri(s.Split("LaddersAndRopes")[0] + @"LaddersAndRopes\LaddersAndRopes\Assets\gold.png"));
+      Image = "/Assets/gold.png";
     }
     public override string ToString()
     {
